@@ -1,3 +1,9 @@
+// 2.Demonstrate how to use Decorators
+// Declare Customer class.
+// A.	Declare Customer Logger Decorator to  show log messages  to track each customer transactions : method level
+// B.	Pass all customer information to Customer Object  via Decorators
+// C.	Create Decorator called “Entity” , just denote this class is entity class
+
 /**
  * TransactionType typed Interface 
  */
