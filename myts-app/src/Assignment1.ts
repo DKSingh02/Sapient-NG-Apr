@@ -19,7 +19,7 @@ type Shapes = {
 // InterestCalculator class which implemet Calculator method and give
 // defination to calculate method .
 class InterestCalculator  implements Calculator {
-    constructor ( public principle: number, public rate: number , public time: number) {
+    constructor ( private principle: number, private rate: number , private time: number) {
     
 }
     // Calculate simple Interest
@@ -32,7 +32,7 @@ class InterestCalculator  implements Calculator {
 // ShapeCalculator class which implemet Calculator method and give
 // defination to calculate method .
 class ShapeCalculator  implements Calculator {
-    constructor (public type: Shapes, public length: number, public breadth?: number) {
+    constructor (private type: Shapes, private length: number, private breadth?: number) {
     
     }
      // Calculate Area of shape
