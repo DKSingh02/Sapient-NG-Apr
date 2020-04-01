@@ -1,73 +1,74 @@
-// 2.Demonstrate how to use Decorators
-// Declare Customer class.
-// A.	Declare Customer Logger Decorator to  show log messages  to track each customer transactions : method level
-// B.	Pass all customer information to Customer Object  via Decorators
-// C.	Create Decorator called “Entity” , just denote this class is entity class
-
-
-
-// Entity method to just to denote class is Entity class by accepting a object
-// From decorator as an argument
-
-// function Entity(classInfo: any) {
-//     return function (target: any) {
-//         Object.defineProperty(target.prototype, 'classInfo', { value: classInfo })
-//     }
-// }
-
-
-// Entity method just to show class is Entity class with no arguments
-function Entity(target: any) {
-    Object.defineProperty(target.prototype, "classInfo", {
-                value: 'This is a Entity class'
-            });
+/**
+ * TransactionType typed Interface 
+ */
+type TransactionType = {
+  deposit?: boolean,
+  withdraw?: boolean
 }
 
-// First Method
-//CustomerLogger method for method level decorator
-
-function CustomerLogger(target: any, props: any, descriptor: any) {
-    if(descriptor === undefined) {
-      descriptor = Object.getOwnPropertyDescriptor(target, props);
-    }
-    let originalMethod = descriptor.value;
-    descriptor.value = function () {
-        let args = [];
-        for (let index = 0; index < arguments.length; index++) {
-            args[index - 0] = arguments[index];
-        }
-        let result = originalMethod.apply(this, args);
-        console.log('result:' + result);
-        return result;
-    };
-    return descriptor;
+/**
+* CustomerInfo Interface having customer details
+*/
+interface CustomerInfo {
+  name: string;
+  job: string;
 }
 
-// Second Method and Simple Way
-// function CustomerLogger(value: any) {
-//     return function (target: any, prop: any, propdescriptor: PropertyDescriptor) {
-//         propdescriptor.writable = value;
-//         propdescriptor.configurable = value
-//     }
-// }
-
-
-// @Entry({ name: 'This is a entry class' })
-@Entity
-class Customer { 
-  constructor(public firstNAme : string, public lastName : string) { 
-  }
-  
-  @CustomerLogger
-  public displayCutomerInfo(profile : string, technology : string) : string { 
-    return `${this.firstNAme}  ${this.lastName} :  ${profile}  ${technology}`; 
+/**
+* CustomerLogger method for method level decorator
+*/
+function CustomerLogger () {
+  return function (target: any, props: string, descriptor: PropertyDescriptor) {
+      console.log(`${props} method called.`);
   }
 }
 
-let customer = new Customer("Diwakar", "Kumar") as any;
+/**
+* Entity method to just to denote class is Entity class by accepting a object
+*/
+function Entity (customerInfo: CustomerInfo) {
+  return function (target: any) {
+      Object.defineProperty(target.prototype, 'customerInfo', {
+          value: customerInfo
+      });
+      console.log('Entity decorator called');
+  }
+}
 
-console.log( `${customer.classInfo}`)
+/**
+* Customer Class
+*/
+@Entity({name: 'Diwakar', job: 'UI Developer'})
+class Customer {
 
-//console.log( `${customer.classInfo.name}`)
+  constructor(private balanceAmount: number = 0) {}
 
-console.log(`Customer Info - ${customer.displayCutomerInfo( 'Front End Developer :', 'Javascript')}`);
+  @CustomerLogger()
+  depositAmount(amount: number): void {
+      this.balanceAmount = this.balanceAmount + amount;
+  }
+
+  @CustomerLogger()
+  withdrawAmount(amount: number): void {
+      this.balanceAmount = this.balanceAmount - amount;
+  }
+
+  @CustomerLogger()
+  transaction (type: TransactionType, amount: number): void {
+      if(type.deposit) {
+          this.depositAmount(amount);
+      }else if(type.withdraw) {
+          this.withdrawAmount(amount);
+      }
+  }
+
+  @CustomerLogger()
+  getCustomerDetail(): string {
+      return `Account Balance : ${(this as any).customerInfo.name}, ${(this as any).customerInfo.job} has ${this.balanceAmount}`;
+  }
+}
+
+let customer = new Customer(8000);
+customer.transaction({ deposit: true }, 10000);
+customer.transaction({ withdraw: true }, 3000);
+console.log(customer.getCustomerDetail());
