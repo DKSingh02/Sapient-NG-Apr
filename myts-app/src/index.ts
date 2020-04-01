@@ -1,108 +1,66 @@
-//Decorators
 
-//decorator code
-/**
- * 1.function must take arg: target (on which the decorator has been attached)
- */
+// Entry method to just to denote class is entry class by accepting a object
+// From decorator as an argument
 
-//Level 1: declaration
-// function Course(target: any) {
-//     console.log('Course decorator is used!')
-// }
-//Level 2 : add decorator logic
-//Get the Student Prototype Object, add courseName property, and set the value
-// function Course(target: any) {
-//     //Logic
-//     Object.defineProperty(target.prototype, "courseName", {
-//         value: 'Angular with Type script'
-//     });
+// function Entry(classInfo: any) {
+//     return function (target: any) {
+//         Object.defineProperty(target.prototype, 'classInfo', { value: classInfo })
+//     }
 // }
 
-// //app code
-// @Course
-// class Student {
-//     constructor(public firstName?: string, public lastName?: string) { }
+
+// Entry method just to show class is entry class with no arguments
+function Entry(target: any) {
+    Object.defineProperty(target.prototype, "classInfo", {
+                value: 'This is a entry class'
+            });
+}
+
+// First Method
+//CustomerLogger method for method level decorator
+
+function CustomerLogger(target: any, props: any, descriptor: any) {
+    if(descriptor === undefined) {
+      descriptor = Object.getOwnPropertyDescriptor(target, props);
+    }
+    let originalMethod = descriptor.value;
+    descriptor.value = function () {
+        let args = [];
+        for (let index = 0; index < arguments.length; index++) {
+            args[index - 0] = arguments[index];
+        }
+        let result = originalMethod.apply(this, args);
+        console.log('result:' + result);
+        return result;
+    };
+    return descriptor;
+}
+
+// Second Method and Simple Way
+// function CustomerLogger(value: any) {
+//     return function (target: any, prop: any, propdescriptor: PropertyDescriptor) {
+//         propdescriptor.writable = value;
+//         propdescriptor.configurable = value
+//     }
 // }
-// let student = new Student("Subramanian", "Murugan") as any;
-// console.log(`${student.firstName} ${student.lastName} is learning ${student.courseName}`);
-
-//use case 2 : course information as input
 
 
-// function Course(target: any) {
-//     //Logic
-//     Object.defineProperty(target.prototype, "courseName", {
-//         value: 'Angular with Type script'
-//     });
-// }
-
-//Level 3 : add decorator logic,with input
-type CourseType = {
-    code: string;
-    courseName: string;
+// @Entry({ name: 'This is a entry class' })
+@Entry
+class Customer { 
+  constructor(public firstNAme : string, public lastName : string) { 
+  }
+  
+  @CustomerLogger
+  public displayCutomerInfo(profile : string, technology : string) : string { 
+    return `${this.firstNAme}  ${this.lastName} :  ${profile}  ${technology}`; 
+  }
 }
 
-function Course(courseinfo: any) {
-    //target should be inside another function
-    return function (target: any) {
-        //Logic
-        Object.defineProperty(target.prototype, 'courseinfo', { value: courseinfo })
-    }
+let customer = new Customer("Diwakar", "Kumar") as any;
 
-}
+console.log( `${customer.classInfo}`)
 
-function Logger(config: any) {
-    return function (target: any) {
-        console.log("\x1b[44m%s\x1b[0m", `${config.type} - ${config.message} on ${new Date()}`);
-    }
-}
+//console.log( `${customer.classInfo.name}`)
 
-//method decorator
-function extendAble(value: any) {
-    return function (target: any, prop: any, propdescriptor: PropertyDescriptor) {
-        console.log(target);
-        console.log(prop);
-        console.log(propdescriptor);
-        propdescriptor.writable = value;
-    }
-}
-
-//field decorator
-function Input(label: string) {
-    return function (target: any, key: string) {
-        console.log(target)
-        console.log(key);
-        Object.defineProperty(target, key, {
-            configurable: false,
-            get: () => label
-        });
-    }
-}
-
-
-
-@Course({ name: 'Node js' })
-@Logger({
-    message: 'Have latest Version',
-    type: 'Warning'
-})
-class Student {
-
-    @Input('Sapient Learning Division')
-    instituteName: string;
-
-    constructor(public firstName?: string, public lastName?: string) { }
-    //cost of this is fixed
-    @extendAble(false)
-    calculateCost() {
-        return 10000;
-    }
-}
-let student = new Student("Subramanian", "Murugan") as any;
-console.log(` ${student.instituteName} ${student.firstName} ${student.lastName} is learning ${student.courseinfo.name}`);
-
-student.calculateCost = function () {
-    return 15000;
-}
-
-console.log(`Course cost ${student.calculateCost()}`);
+console.log(`Customer Info - ${customer.displayCutomerInfo( 'Front End Developer :', 'Javascript')}`);
