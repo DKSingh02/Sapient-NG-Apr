@@ -10,10 +10,16 @@ interface Calculator {
     calculate (): void;
 }
 
+type Shapes = {
+    square?: boolean,
+    reactangle?: boolean,
+  
+}
+
 // InterestCalculator class which implemet Calculator method and give
 // defination to calculate method .
 class InterestCalculator  implements Calculator {
-    constructor (public principle: number, public rate: number , public time: number) {
+    constructor ( public principle: number, public rate: number , public time: number) {
     
 }
     // Calculate simple Interest
@@ -26,13 +32,17 @@ class InterestCalculator  implements Calculator {
 // ShapeCalculator class which implemet Calculator method and give
 // defination to calculate method .
 class ShapeCalculator  implements Calculator {
-    constructor (public length: number, public breath: number) {
+    constructor (public type: Shapes, public length: number, public breadth?: number) {
     
     }
      // Calculate Area of shape
     public calculate(): void {
-        const area = (this.length * this.breath );
-        console.log(`Shape Area = ${area}`);
+        if(this.type.square) {
+            console.log(`Shape is Square, Area = ${this.length * this.length}`);
+        }else if(this.type.reactangle) {
+            console.log(`Shape is Rectangle, Area = ${this.length * this.breadth}`);
+        }
+       
     }
 }
 
@@ -40,5 +50,8 @@ class ShapeCalculator  implements Calculator {
 const interest = new InterestCalculator(1000, 5, 2);
 interest.calculate();
 
-let shape = new ShapeCalculator(10, 20);
-shape.calculate();
+let firstShape = new ShapeCalculator( { square: true }, 10);
+firstShape.calculate();
+
+let secondShape = new ShapeCalculator( { reactangle: true }, 10, 20);
+secondShape.calculate();
