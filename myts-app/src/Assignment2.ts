@@ -1,18 +1,25 @@
+// 2.Demonstrate how to use Decorators
+// Declare Customer class.
+// A.	Declare Customer Logger Decorator to  show log messages  to track each customer transactions : method level
+// B.	Pass all customer information to Customer Object  via Decorators
+// C.	Create Decorator called “Entity” , just denote this class is entity class
 
-// Entry method to just to denote class is entry class by accepting a object
+
+
+// Entity method to just to denote class is Entity class by accepting a object
 // From decorator as an argument
 
-// function Entry(classInfo: any) {
+// function Entity(classInfo: any) {
 //     return function (target: any) {
 //         Object.defineProperty(target.prototype, 'classInfo', { value: classInfo })
 //     }
 // }
 
 
-// Entry method just to show class is entry class with no arguments
-function Entry(target: any) {
+// Entity method just to show class is Entity class with no arguments
+function Entity(target: any) {
     Object.defineProperty(target.prototype, "classInfo", {
-                value: 'This is a entry class'
+                value: 'This is a Entity class'
             });
 }
 
@@ -46,7 +53,7 @@ function CustomerLogger(target: any, props: any, descriptor: any) {
 
 
 // @Entry({ name: 'This is a entry class' })
-@Entry
+@Entity
 class Customer { 
   constructor(public firstNAme : string, public lastName : string) { 
   }
