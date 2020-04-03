@@ -6,19 +6,16 @@ import { Address } from 'src/app/types';
   selector: 'app-address',
   templateUrl: 'address.component.html',
 })
- class AddressComponent implements OnInit {
+  export class AddressComponent implements OnInit {
 
   title: string = 'Address Details...';
+
   @Input()
   addressDetails: Address;
+
   constructor() { }
 
   ngOnInit() {
     console.log(this.addressDetails);
   }
-  
-  
 }
-
-
-export default AddressComponent;

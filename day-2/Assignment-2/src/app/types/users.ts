@@ -19,7 +19,7 @@
         bs: string;
     }
 
-    export interface RootObject {
+    export interface UsersData {
         id: number;
         name: string;
         username: string;
