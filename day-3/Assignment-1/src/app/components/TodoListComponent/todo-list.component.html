@@ -1,0 +1,10 @@
+<app-todo-form (sendRequest)="getTodoList($event)"></app-todo-form>
+<hr>
+<h1>{{title}}</h1>
+<ul>
+    <li *ngFor="let todo of todoLists; let itemIndex = index">
+        {{todo}} <button (click)="removeTodo(itemIndex)">Complete</button>
+    </li>
+</ul>
+<br>
+
