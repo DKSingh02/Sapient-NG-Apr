@@ -1,0 +1,21 @@
+<h1>{{title}}</h1>
+<br>
+<mat-accordion>
+    <mat-card-subtitle *ngIf="isLoading">Loading Comments...</mat-card-subtitle>
+    <mat-expansion-panel *ngFor="let comment of comments">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{comment.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+            {{comment.email}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <ng-container *ngIf="!isLoading">
+            <mat-card-subtitle>
+                <app-comment [comment]="comment"></app-comment>
+            </mat-card-subtitle>
+        </ng-container>
+    </mat-expansion-panel>
+</mat-accordion>
+  
