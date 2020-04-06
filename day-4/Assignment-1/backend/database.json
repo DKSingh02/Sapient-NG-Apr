@@ -1,0 +1,14 @@
+{
+    "todos": [
+      {
+        "id": 1,
+        "name": "Angular Learning",
+        "status": "In Progress"
+      },
+      {
+        "id": 2,
+        "name": "React Learning",
+        "status": "Complete"
+      }
+    ]
+  }

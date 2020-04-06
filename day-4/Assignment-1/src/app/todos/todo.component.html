@@ -1,0 +1,17 @@
+<h1>List All Default Todo</h1>
+  <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">TODO ID</th>
+            <th scope="col">TODO NAME</th>
+            <th scope="col">TODO STATUS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let todo of todos">
+            <th scope="row">{{todo.id}}</th>
+            <td>{{todo.name}}</td>
+            <td>{{todo.status}}</td>
+        </tr>
+    </tbody>
+</table>
