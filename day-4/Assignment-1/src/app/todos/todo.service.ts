@@ -7,7 +7,7 @@ import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 
 @Injectable()
 export class TodoService {
-  heroesUrl = 'http://localhost:30001/todos';  // URL to web api
+  heroesUrl = 'http://localhost:3000/todos';  // URL to web api
   private handleError: HandleError;
 
   constructor(
