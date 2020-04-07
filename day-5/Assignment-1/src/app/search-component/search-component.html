@@ -1,0 +1,26 @@
+<div class="container text-center">
+    <h1>{{title}}</h1>
+  </div>
+  <div class="container">
+      <div class="row">
+        <div class="search-player">
+          <input type="search" class="form-control" name="search"  placeholder="Please enter search term" [formControl]="searchField">
+        </div>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Id</th>
+            <th>Player Name</th>
+            <th>Country</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let player of players">
+            <td>{{player.id}}</td>
+            <td>{{player.name}}</td>
+            <td>{{player.country}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
