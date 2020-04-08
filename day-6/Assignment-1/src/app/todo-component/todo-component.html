@@ -1,0 +1,30 @@
+<div class="container text-center">
+    <h1>{{title}}</h1>
+  <div class="container">
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th *ngFor="let header of tableHeader; let indx = index"><h5 class="m-header">{{header}}</h5> 
+                <div class="sort-todo-list" *ngFor="let orderList of todoSortOrderList; let ind = index">
+                  <p class="align-todo-list">{{orderList.name}}</p>
+                  <input type="radio" name="radiogroup" 
+                  [checked]="(indx === 2 && ind === 0)"
+                  [value]="orderList.id" 
+                  (change)="onSelectionChange(orderList, indx)">
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let todo of todos | async | sortBy: sortOrder : sortColumn">
+            <td>{{todo.id}}</td>
+            <td>{{todo.userId}}</td>
+            <td>{{todo.title}}</td>
+            <td>{{todo.completed}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
