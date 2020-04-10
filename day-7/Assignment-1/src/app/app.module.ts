@@ -1,21 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './routers/app-routing.module';
+import { BankModule } from './components/bank.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './routers/home.component';
-import { OffersComponent } from './routers/offers.component';
-import { AccountsComponent } from './routers/accounts.component';
-import { FundTransferComponent } from './routers/fund-transfer.component';
-import { BillPaymentComponent } from './routers/bill-payment-recharge.component';
+import { HeaderComponent } from './components/headers/header';
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent,
-    FundTransferComponent, OffersComponent,
-    AccountsComponent, BillPaymentComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
+    BankModule,
     AppRoutingModule
   ],
   providers: [],
